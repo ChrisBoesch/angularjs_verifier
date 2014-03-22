@@ -3,7 +3,7 @@
 ```bash
 $ npm i
 $ npm ln
-$ cd ≤project_path>
+$ cd <project_path>
 $ angularjs_verfier server
 ```
 
