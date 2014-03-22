@@ -1,0 +1,34 @@
+{
+  "name": "angularjs_verifier",
+  "version": "0.0.1",
+  "description": "AngularJS Verifier for Singpath",
+  "main": "index.js",
+  "bin": "./bin/angularjs_verifier",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ChrisBoesch/angularjs_verifier.git"
+  },
+  "keywords": [
+    "tool",
+    "cli",
+    "test",
+    "jesmine",
+    "angularjs"
+  ],
+  "author": "Chris Boesch",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ChrisBoesch/angularjs_verifier/issues"
+  },
+  "homepage": "https://github.com/ChrisBoesch/angularjs_verifier",
+  "dependencies": {
+    "chalk": "^0.4.0",
+    "commander": "^2.1.0",
+    "connect": "^2.14.3",
+    "karma": "^0.12.1",
+    "karma-ng-scenario": "^0.1.0"
+  }
+}
