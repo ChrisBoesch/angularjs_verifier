@@ -29,6 +29,11 @@
     "commander": "^2.1.0",
     "connect": "^2.14.3",
     "karma": "^0.12.1",
-    "karma-ng-scenario": "^0.1.0"
+    "karma-jasmine": "^0.1.5",
+    "karma-ng-scenario": "^0.1.0",
+    "karma-phantomjs-launcher": "^0.1.2"
+  },
+  "devDependencies": {
+    "karma-chrome-launcher": "^0.1.3"
   }
 }
