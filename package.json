@@ -30,8 +30,10 @@
     "connect": "^2.14.3",
     "karma": "^0.12.1",
     "karma-jasmine": "^0.1.5",
+    "karma-json-reporter": "^1.0.0",
     "karma-ng-scenario": "^0.1.0",
-    "karma-phantomjs-launcher": "^0.1.2"
+    "karma-phantomjs-launcher": "^0.1.2",
+    "q": "^1.0.1"
   },
   "devDependencies": {
     "karma-chrome-launcher": "^0.1.3"
