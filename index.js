@@ -39,29 +39,68 @@ program
 
     karma.server.start(options);
 
+    // The API Server
     var app = connect()
       // .use(connect.logger('dev'))
-      .use(connect.bodyParser())
+      .use(connect.json())
       .use(function(req, res) {
 
-        // TODO: fix this dirty hack
-        var content = '';
-        process.stdout.write = function (data) {
-          content += data;
-          return;
-        };
+        var json = req.body.jsonrequest;
+        if (json) {
+          // TODO: fix this dirty hack
+          var jsonContent = '{}';
+          var origialStdWrite = process.stdout.write;
+          process.stdout.write = function (data) {
+            // Only catch JSON
+            if (data && data[0] === '{') {
+              jsonContent = data;
+            }
+            return;
+          };
 
-        var tests = req.body.tests,
-            solution = req.body.solution;
+          var tests = req.body.tests,
+              solution = req.body.solution;
 
-        var p1 = fs.writeFile('index.html', solution),
-            p2 = fs.writeFile('tests.js', tests);
+          var p1 = fs.writeFile('index.html', json.solution),
+              p2 = fs.writeFile('tests.js', json.tests);
 
-        q.all([p1, p2]).then(function () {
-          karma.runner.run(options, function (exitCode) {
-            res.end(content);
+          q.all([p1, p2]).then(function () {
+            karma.runner.run(options, function (exitCode) {
+              // Revert back the hack
+              process.stdout.write = origialStdWrite;
+
+              var karmaJson = JSON.parse(jsonContent);
+
+              if (karmaJson.summary) {
+
+                var results = karmaJson.result[Object.keys(karmaJson.result)[0]];
+
+                results = results.map(function (item) {
+                  return {
+                    call: item.description,
+                    expected: item.success ? '' : item.log[0],
+                    received: item.success ? '' : item.log[1],
+                    correct: item.success
+                  }
+                });
+
+                var answer = {
+                  solved: !!!karmaJson.summary.error,
+                  results: results,
+                  printed: ""
+                };
+
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify(answer));
+              } else {
+                res.end('Please wait for the server to start!');
+              }
+            });
           });
-        });
+        } else {
+          res.end('jsonrequest not found', 400);
+        }
+
       })
       .listen(port);
   });
