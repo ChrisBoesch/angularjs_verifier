@@ -42,10 +42,16 @@ program
     // The API Server
     var app = connect()
       // .use(connect.logger('dev'))
+      .use(connect.urlencoded())
       .use(connect.json())
       .use(function(req, res) {
 
         var json = req.body.jsonrequest;
+        // application/x-www-form-urlencoded
+        if (typeof json === 'string') {
+          json = JSON.parse(json);
+        }
+
         if (json) {
           // TODO: fix this dirty hack
           var jsonContent = '{}';
@@ -57,9 +63,6 @@ program
             }
             return;
           };
-
-          var tests = req.body.tests,
-              solution = req.body.solution;
 
           var p1 = fs.writeFile('index.html', json.solution),
               p2 = fs.writeFile('tests.js', json.tests);
